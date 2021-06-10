@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="il.ac.hit.costmanager.model.Expense" table="Expense">
+		<id name="id" type="int" column="ID" >
+			<generator class="increment"/>
+		</id>
+		
+	
+    <component name="category">
+        <property name="category" column="CATEGORY"/>
+    </component>
+ 
+	
+		<property name="sum">
+			<column name="SUM"/>
+		</property>
+	
+		<property name="text">
+			<column name="TEXT"/>
+		</property>
+		<property name="date">
+			<column name="DATE"/>
+		</property>
+			<property name="userId">
+			<column name="USERID"/>
+		</property>
+		
+	</class>
+</hibernate-mapping>

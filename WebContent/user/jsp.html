@@ -1,0 +1,73 @@
+<!--  Karin Daskal 208511659
+  Lilach Louz 315903179 -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="costmeneger.js"></script>
+
+<meta charset="windows-1255">
+<title>Insert title here</title>
+</head>
+<body>
+
+ <div id="page" data-role="page" data-theme="b">
+  <div data-role="header" data-theme="b">
+      <h1>Login</h1>
+      </div>
+    <div data-role="content">
+     
+      <p align="right">
+        <a href="registration.jsp" id="showregistration" data-ajax="false">Don't have an
+          account? &rarr;</a>
+      </p>
+      <form method="post" id="loginForm">
+        <label for="password">User Name:</label> 
+        <input class="required" type="text" name="username" id="username"
+          placeholder="username"> 
+        <label for="password">Password:</label>
+        <input class="required" type="password" name="password"
+          id="password" placeholder="password"> 
+        <input type="button" value="Login" id="submitButton" onClick="handleLogin()">
+          
+          
+      </form>
+    </div>
+     <div id="message"></div>
+  </div>
+   <script>
+   
+	/**
+ 	* handle onClick button of login 
+ 	*/
+        function handleLogin() {
+            var name= document.getElementById("username").value;
+            var password= document.getElementById("password").value;
+          
+        if(name==""|| password==""){
+            	showMessage("user naem or  password is empty ")
+
+           }
+            else{
+         document.getElementById("message").innerText = "loading...";
+         var user= new User(name,password);         
+     
+        window.cost.login(user , openList, showMessage);
+            }
+        }
+        function showMessage(text) {
+            document.getElementById("message").innerText = text;
+        }
+     
+        function openList(text) {
+        	window.location.replace("listexpens.jsp");
+        
+        }
+    </script>
+
+</body>
+</html>
+
