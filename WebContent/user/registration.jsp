@@ -33,47 +33,51 @@
              <label for="password"> Confirm Password :</label>
         <input class="required" type="password" name="confirm"
           id="confirm" placeholder="password"> 
-        <input type="button" value="Registration" id="submitButton" onClick="handleRegistration()">
+        <input type="button" value="Registration" id="submitButton" onClick="window.cost.handleRegistration()">
          
           
       </form>
     </div>
      <div id="message"></div>
+   
   </div>
    <script>
 
   /**
 * handle onClick button
+* 
   */
-        function handleRegistration() {
+ 
+        window.cost.handleRegistration=function() {
             var name= document.getElementById("username").value;
             var password= document.getElementById("password").value;
             var confirm= document.getElementById("confirm").value;
-        	showMessage("loading...")
+        	
           
             if(password!=confirm){
-            	showMessage("The passwords are not the same")
+            	window.cost.showMessage("The passwords are not the same")
             }
         	  if(password.length<6){
-              	showMessage("Password must be at least 6 characters long ")
+              	window.cost.showMessage("Password must be at least 6 characters long ")
               }
               else if(name==""){
-              	showMessage("user naem coudt bo empty ")
+              	window.cost.showMessage("user naem coudt bo empty ")
 
              }
             else{
        
          var user= new User(name,password);         
      
-        window.cost.registration(user , showMessage, showMessage);
+        window.cost.registration(user , window.cost.showMessage, window.cost.showMessage);
             }
         }
   /**
   * show message if failed or success
   */
-        function showMessage(text) {
+        window.cost.showMessage=function(text) {
             document.getElementById("message").innerText = text;
         }
+       
      
     </script>
 

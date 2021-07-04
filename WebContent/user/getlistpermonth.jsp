@@ -1,3 +1,34 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@karindaskal 
+karindaskal
+/
+costs-manager
+1
+00
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+costs-manager/WebContent/user/listExpensePreMonth.jsp
+@karindaskal
+karindaskal commit-0
+Latest commit 7a79ce8 13 days ago
+ History
+ 1 contributor
+133 lines (110 sloc)  4.31 KB
+  
 <!--  Karin Daskal 208511659
   Lilach Louz 315903179 -->
 <%@ page language="java" contentType="text/html; charset=windows-1255"
@@ -15,36 +46,36 @@
 <body>
 <div data-role="page" id="home" data-theme="b">
     <div data-role="header" data-theme="b">
-        <h1> Cost List Per Month</h1>
+        <h1> Cost List Per Day</h1>
     </div>
-     <a href="listexpens.jsp" id="showregistration" data-ajax="false">back &rarr;</a>
+     <a href="getlist.jsp" id="showregistration" data-ajax="false">back &rarr;</a>
     <label> Selecet a month</label>
-        <select name="month" id="month" data-mini="true">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-      <option value="5">4</option>
-        <option value="5">5</option>
-       <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
-     
-    </select>
+        <select name="month" id="month" data-mini="true">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      <option value="5">4</option>
+        <option value="5">5</option>
+       <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+     
+    </select>
     <label> Selecet a year</label>
-        <select name="year" id="year" data-mini="true">
-        <option value="1">2022</option>
-        <option value="2">2021</option>
-        <option value="3">2020</option>
-      <option value="5">2019</option>
-        <option value="5">2018</option>
-   
-     
-    </select>
-  <input type="button" value="showlist" id="shoelist" onClick="handleShoeListPerMonth()">
+        <select name="year" id="year" data-mini="true">
+        <option value="1">2022</option>
+        <option value="2">2021</option>
+        <option value="3">2020</option>
+      <option value="5">2019</option>
+        <option value="5">2018</option>
+   
+     
+    </select>
+  <input type="button" value="showlist" id="shoelist" onClick="window.cost.handleShoeListPerMonth()">
 
     <div data-role="content">
 
@@ -64,14 +95,14 @@
            * show message if fail or success
            */  
      
-            function showMessage(text) {
+            window.cost.showMessage=function(text) {
                 document.getElementById("message").innerText = text;
             }
           /**
         * show list of cost specific month
          */
          
-            function showList(vec) {
+             window.cost.showList=function(vec) {
             	  var list = document.getElementById('listPerMonth');
             	  $('#listPerMonth').empty();
             	vec.forEach(
@@ -107,22 +138,18 @@
       
 </div>
 <script type="text/javascript"> 
-
 /*
  * handle onClick show button
  */
-
- function handleShoeListPerMonth(){
+ window.cost.handleShoeListPerMonth=function(){
 	   var monthObject = document.getElementById("month");
 	   var strMonth = monthObject.options[monthObject.selectedIndex].text;
 	   var yearObject = document.getElementById("year");
 	   var strYear = yearObject.options[yearObject.selectedIndex].text;
 	   var ob= new Month(strMonth,strYear);    
-
-	window.cost.getListPerMonth(ob,showList,showMessage);
+	window.cost.getListPerMonth(ob,window.cost.showList,window.cost.showMessage);
 	
 }
-
 </script>
   
 

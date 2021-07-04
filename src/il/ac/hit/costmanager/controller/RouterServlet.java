@@ -1,14 +1,9 @@
 package il.ac.hit.costmanager.controller;
 
-/**
- * Servlet get  all the request and send to the appropriate function
- */
-/**
- * Karin Daskal 208511659
- * lilach louz 315903179
- */
+
 
 import javax.servlet.*;
+
 import javax.servlet.http.*;
 
 import il.ac.hit.costmanager.model.IModel;
@@ -18,7 +13,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.*;
 import java.util.*;
+/**
+ * Karin Daskal 208511659
+ * lilach louz 315903179
+ */
 
+/**
+ * Servlet get  all the request and send to the appropriate function
+ */
 
 public class RouterServlet extends HttpServlet {
 	

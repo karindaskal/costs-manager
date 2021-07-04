@@ -23,6 +23,7 @@
 		</property>
 		<property name="date">
 			<column name="DATE"/>
+			
 		</property>
 			<property name="userId">
 			<column name="USERID"/>

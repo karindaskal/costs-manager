@@ -15,7 +15,7 @@
     <div data-role="content">
       <h2>Login</h2>
       <p align="right">
-        <a href="registration.html" id="showregistration">Don't have an
+        <a href="registration.jsp" id="showregistration" data-ajax="false">Don't have an
           account? &rarr;</a>
       </p>
       <form method="post" id="loginForm">
@@ -25,7 +25,7 @@
         <label for="password">Password:</label>
         <input class="required" type="password" name="password"
           id="password" placeholder="password"> 
-        <input type="button" value="Login" id="submitButton" onClick="handleLogin()">
+        <input type="button" value="Login" id="submitButton" onClick="window.cost.handleLogin()">
          
           
       </form>
@@ -35,20 +35,20 @@
    <script>
 
   
-        function handleLogin() {
+        window.cost.handleLogin=function() {
             var name= document.getElementById("username").value;
             var password= document.getElementById("password").value;
          document.getElementById("message").innerText = "loading...";
          var user= new User(name,password);
          
      
-        window.cost.login(user , openList, showMessage);
+        window.cost.login(user , window.cost.openList, window.cost.showMessage);
         }
-        function showMessage(text) {
+        window.cost.showMessage=function(text) {
             document.getElementById("message").innerText = text;
         }
-        function openList(text) {
-        	window.location.replace("listexpens.jsp"); 
+        window.cost.openList=function(text) {
+        	window.location.replace("getlist.jsp"); 
 
         }
       

@@ -1,13 +1,15 @@
-/**
- *  BasicController  extends from  AbstractController
- */
+
+package il.ac.hit.costmanager.controller;
+
+import il.ac.hit.costmanager.model.IModel;
 /**
  * Karin Daskal 208511659
  * lilach louz 315903179
  */
-package il.ac.hit.costmanager.controller;
 
-import il.ac.hit.costmanager.model.IModel;
+/**
+ *  BasicController  extends from  AbstractController
+ */
 
 public class BasicController extends AbstractController{
 

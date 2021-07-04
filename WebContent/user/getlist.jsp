@@ -20,15 +20,15 @@
 <div data-role="popup" id="popupMenu" data-theme="b">
         <ul data-role="listview" data-inset="true" style="min-width:210px;">
 <li data-role="list-divider">Choose an action</li>
-<li><a href="addexpense.jsp" data-ajax="false">add</a></li>
-            <li> <a href="listExpensePreMonth.jsp" data-ajax="false" data-rel="dialog">list expense per Month</a></li>
-          <li><a href="listperday.jsp"  data-ajax="false" data-rel="dialog" data-close-btn="right" >list expense per Day</a></li>
+<li><a href="addcost.jsp" data-ajax="false">add</a></li>
+            <li> <a href="getlistpermonth.jsp" data-ajax="false" data-rel="dialog">list expense per Month</a></li>
+          <li><a href="getlistperday.jsp"  data-ajax="false" data-rel="dialog" data-close-btn="right" >list expense per Day</a></li>
+          <li><a href="getlistperweek.jsp"  data-ajax="false" data-rel="dialog" data-close-btn="right" >list expense per Week</a></li>
 
             <li><a href="piechar.jsp"  data-ajax="false" data-rel="dialog" data-close-btn="right" >show pie chart</a></li>
         </ul>
 </div>
- 
-
+  <a href="#" data-role="button" data-theme="b" data-inline="true" id="submitButton" onClick="window.cost.handleLogout()">logout</a>
           
     <div data-role="header" data-theme="b">
         <h1> Cost List</h1>
@@ -53,13 +53,13 @@
           /**
            * show message if fail 
            */        
-            function showMessage(text) {
+           window.cost.showMessage= function(text) {
                 document.getElementById("message").innerText = text;
             }
           /**
           *show list of cost
           */
-            function showList(vec) {
+            window.cost.showList= function(vec) {
             	  var list = document.getElementById('list');
             	vec.forEach(
                         function(ob)
@@ -88,14 +88,20 @@
                       $('#list').listview('refresh');
             }
             
-         
-         
+             window.cost.handleLogout=function(){
+            	window.cost.logout(window.cost.backToLogin,window.cost.showMessage)
+            }
+             window.cost.backToLogin=function(){
+         	window.location.replace("login.jsp"); 
+
+         }
         </script>
+        
         
 </div>
 <script type="text/javascript"> 
 //call get list
-window.cost.getList(showList,showMessage)
+window.cost.getList(window.cost.showList,window.cost.showMessage)
 </script>
   
 

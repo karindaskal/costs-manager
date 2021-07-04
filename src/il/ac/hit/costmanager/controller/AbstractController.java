@@ -2,13 +2,14 @@
 package il.ac.hit.costmanager.controller;
 import il.ac.hit.costmanager.model.IModel;
 /**
- * abstract class of controller
- * 
- */
-/**
  * Karin Daskal 208511659
  * lilach louz 315903179
  */
+/**
+ * abstract class of controller
+ * 
+ */
+
 
 
 public abstract class AbstractController {

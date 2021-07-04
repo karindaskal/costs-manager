@@ -17,27 +17,27 @@
     <div data-role="header" data-theme="b">
         <h1>Add Cost</h1>
     </div>
-   <a href="listexpens.jsp" id="showregistration" data-ajax="false">back &rarr;</a>
+   <a href="getlist.jsp" id="showregistration" data-ajax="false">back &rarr;</a>
 
 <div  data-role="content">
 <form method="post">
 
     <label for="textinput-fc">Enter sum:</label>
     <input type="number" name="sun" id="sum" placeholder="$$" value="">
-     <label for="select-native-1">category:</label>
-    <select name="category" id="category" data-mini="true">
-      <option value="1">Food</option>
-   <option value="1">Travel</option>
-        <option value="1">education</option>
-        <option value="2">Clothes</option>
-        <option value="3">housing</option>
-        <option value="4">health</option>
-    </select>
+    <label for="select-native-1">category:</label>
+<select name="category" id="category" data-mini="true">
+<option value="1">Food</option>
+<option value="1">Travel</option>
+<option value="1">education</option>
+<option value="2">Clothes</option>
+<option value="3">housing</option>get
+<option value="4">health</option>
+</select>
      <label for="textinput-fc">Enter Description:</label>
     <input type="text" name="description" id="description" placeholder="description..." value="">
      <label for="textinput-fc">Enter Date:</label>
       <input type="date" name="date" id="date" placeholder="date" value="">
-   <input type="button" value="Add Cost" id="submitButton" onClick=" handleAddCost()">
+   <input type="button" value="Add Cost" id="submitButton" onClick="window.cost.handleAddCost()">
     </form>
     
 
@@ -53,7 +53,7 @@
  * handel add cost 
  */
 
-function handleAddCost(){	
+ window.cost.handleAddCost = function(){
     var sum= document.getElementById("sum").value;
     var description= document.getElementById("description").value
     var date= document.getElementById("date").valueAsNumber
@@ -68,13 +68,13 @@ function handleAddCost(){
     	}
     	else{
     var cost = new Cost(sum,categoryStr,description,date)	  
-    window.cost.addCostItem(cost, showMessage, showMessage);}
+    window.cost.addCostItem(cost, window.cost.showMessage, window.cost.showMessage);}
     }
 }
 /**
  * show message if fail or success
  */
-function showMessage(text) {
+window.cost.showMessage= function(text) {
     document.getElementById("message").innerText = text;
 }
 

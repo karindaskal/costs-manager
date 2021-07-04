@@ -1,14 +1,9 @@
 package il.ac.hit.costmanager.controller;
-/**
- * implements  controller
- */
-/**
- * Karin Daskal 208511659
- * lilach louz 315903179
- */
+
 
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +26,13 @@ import il.ac.hit.costmanager.model.Expense;
 import il.ac.hit.costmanager.model.IModel;
 import il.ac.hit.costmanager.model.SqlModel;
 import il.ac.hit.costmanager.model.User;
+/**
+ * Karin Daskal 208511659
+ * lilach louz 315903179
+ */
+/**
+ * implements  controller
+ */
 
 public class UserController extends BasicController {
 	/**
@@ -42,14 +44,12 @@ public class UserController extends BasicController {
         super(dao);
     }
 
-    public void products(HttpServletRequest request, HttpServletResponse response) throws CostManagerException  {
-    }
-    /**
-     * 
+    
+    /**    
+     * get user name and password and login
      * @param request
      * @param response
      * @throws CostManagerException
-     * get user name and password and login
      */
 
     
@@ -64,9 +64,12 @@ public class UserController extends BasicController {
 		 String name= request.getParameter("name");
 		 //get password from the request
 		 String password= request.getParameter("password");
+		 if(name!=null&&password!=null) {
 		 name = name.trim();
 		 password=password.trim();	
-		 
+		 if(name.equals("")||password.length()<6) {
+			 throw new CostManagerException("the name or the password illegal");
+		 }
 		  response.setContentType("text/plain");
 		  // Set  content type of the response so that jQuery knows what it can expect.
 		
@@ -80,6 +83,7 @@ public class UserController extends BasicController {
 	
 	//log in the model
 		model.login(user);
+		 }else throw new CostManagerException("get null");
 		
 	
 			//send message if success or not 
@@ -96,14 +100,13 @@ public class UserController extends BasicController {
    
 
   }
-    /**
-     * 
+    /** 
+     * get a month and call the function in the model that return  all the cost in this month
      * @param request
      * @param response
      * @throws CostManagerException
-     * get a month and call the function in the model that return  all the cost in this month
      */
-    public void showlistpermonth(HttpServletRequest request, HttpServletResponse response)throws CostManagerException  {
+    public void getlistpermonth(HttpServletRequest request, HttpServletResponse response)throws CostManagerException  {
     	
   
     String text = request.getRequestURI();
@@ -118,6 +121,10 @@ public class UserController extends BasicController {
       //get month from the request
 	  String month= request.getParameter("month");
 	  String year= request.getParameter("year");
+	  if(month.equals("")||year.equals("")) {
+		  throw new CostManagerException("month or tear is illegal");
+		  
+	  }
       IModel model = SqlModel.getInstance();
 	  List<Expense> list= model.getExpenseMonth(month,year);
 	  System.out.println(list);
@@ -129,12 +136,11 @@ public class UserController extends BasicController {
 }
 
 }
-    /**
-     * 
+    /**     
+     * get cost details and call the function add cost from model
      * @param request
      * @param response
      * @throws CostManagerException
-     * get cost details and call the function add cost from model
      */
     
 
@@ -182,11 +188,11 @@ response.getWriter().write("sacsess");
 }
 }
 /**
- * 
+ * get the Details off the new user and call the function registration from model
  * @param request
  * @param response
  * @throws CostManagerException
- * get the Details off the new user and call the function registration from model
+ * 
  */
 
 public void registration(HttpServletRequest request, HttpServletResponse response)throws CostManagerException  {
@@ -231,12 +237,12 @@ IModel model = SqlModel.getInstance();
 
 
 }
-/**
- * 
+/** 
+ * call the fubction gel lisy from model ans response with the list
  * @param request
  * @param response
  * @throws CostManagerException
- * call the fubction gel lisy from model ans response with the list
+ * 
  */
 public void getlist(HttpServletRequest request, HttpServletResponse response)throws CostManagerException  {
 		  String text = request.getRequestURI();
@@ -311,13 +317,54 @@ IModel model = SqlModel.getInstance();
 }
 }
 /**
+ * call the function gel list specific week from model an response with the list
+ * @param request
+ * @param response
+ * @throws CostManagerException
+ */
+public void getlistperweek(HttpServletRequest request, HttpServletResponse response)throws CostManagerException  {
+	  String text = request.getRequestURI();
+	  try {
+		PrintWriter writer =response.getWriter();
+	 
+	  response.setContentType("text/plain");
+	  // Set		  content type of the response so that jQuery knows what it can expect.
+	  response.setCharacterEncoding("UTF-8");
+	 
+	  String sDate= request.getParameter("day");
+	
+	  long dateLong =Long.parseLong(sDate);
+	  Date date = new Date(dateLong);
+
+//set a model object
+IModel model = SqlModel.getInstance();
+
+
+//create list of expense
+	  List<Expense> list= model.getExpenseWeek(date);
+	// list to json String
+	  String json =new Gson().toJson(list);
+	 
+		
+	//write response json string
+		response.getWriter().write(json);
+	  } catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("fail");
+			throw new CostManagerException(e.getMessage(),e);
+
+		
+
+}
+}
+/**
  * call a function to get hashMap and return a json
  * @param request
  * @param response
  * @throws CostManagerException
  */
 
-public void gethashmap(HttpServletRequest request, HttpServletResponse response)throws CostManagerException  {
+public void getdatapiechart(HttpServletRequest request, HttpServletResponse response)throws CostManagerException  {
 	  String text = request.getRequestURI();
 	  try {
 		PrintWriter writer =response.getWriter();
@@ -344,6 +391,21 @@ HashMap<String,Double> hashamp=model.getCategoryMap();
 		
 
 }
+}
+/**
+ * logout
+ * @param request
+ * @param response
+ * @throws CostManagerException
+ */
+public void logout(HttpServletRequest request, HttpServletResponse response) throws CostManagerException {
+	
+	 
+	IModel model = SqlModel.getInstance();
+	request.getSession().invalidate();
+	
+	
+	
 }
 
 

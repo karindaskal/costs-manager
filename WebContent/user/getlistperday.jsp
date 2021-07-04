@@ -17,9 +17,9 @@
  <div data-role="header" data-theme="b">
  <h1> Cost List Per Month</h1>
  </div>
- <a href="listexpens.jsp" id="showregistration" data-ajax="false">back &rarr;</a> <label for="textinput-fc">Enter Date:</label>
+ <a href="getlist.jsp" id="showregistration" data-ajax="false">back &rarr;</a> <label for="textinput-fc">Enter Date:</label>
  <input type="date" name="date" id="date" placeholder="date" value="">
- <input type="button" value="showlist" id="shoelist" onClick="handleShoeListPerDay()">
+ <input type="button" value="showlist" id="shoelist" onClick="window.cost.handleShoeListPerDay()">
  <div data-role="content">
  <ul data-role="listview" data-theme="c" id="listPerDay">
  </ul>
@@ -33,13 +33,13 @@
   /**
  * show message if fail 
  */
- function showMessage(text) {
+window.cost.showMessage=function(text) {
  document.getElementById("message").innerText = text;
  }
  /**
  * show list of cost in specific day
  */
- function showList(vec) {
+ window.cost.showList =function(vec) {
  var list = document.getElementById('listPerDay'); 
  $('#listPerDay').empty(); 
 vec.forEach( 
@@ -76,12 +76,9 @@ vec.forEach(
 /*
 * handle onClick show button of day
 */
-function handleShoeListPerDay(){
+window.cost.handleShoeListPerDay =function(){
 var date= document.getElementById("date").valueAsNumber
-showMessage(date)
- 
- 
-window.cost.getListPerDay(date,showList,showMessage);
+window.cost.getListPerDay(date,window.cost.showList,window.cost.showMessage);
 }</script>
  
 </body>

@@ -16,7 +16,7 @@
     *onload function
     */
         window.onload = function () {
-        	 window.cost.getpiechart(showpieChart,showMessage)
+        	 window.cost.getpiechart(window.cost.showpieChart,window.cost.showMessage)
 
 
         }
@@ -24,13 +24,13 @@
        * show message if failed
         */
         
-        function showMessage(text) {
+        window.cost.showMessage=function(text) {
             document.getElementById("message").innerText = text;
         }
         /**
        * Show pie cahrt
         */
-        function showpieChart(vec) {
+        window.cost.showpieChart=function(vec) {
 
             var array_keys = new Array();
             var array_values = new Array();
@@ -69,7 +69,7 @@
 </head>
 
 <body>
- <a href="listexpens.jsp" id="showregistration" data-ajax="false">back &rarr;</a>
+ <a href="getlist.jsp" id="showregistration" data-ajax="false">back &rarr;</a>
 
 <div id="chartContainer" data-theme="b" ></div>
   <div id="message"></div>

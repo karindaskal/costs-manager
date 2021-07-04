@@ -6,6 +6,9 @@ import java.util.List;
  * Karin Daskal 208511659
  * lilach louz 315903179
  */
+/**
+ * Imodel interface
+ */
 
 public interface IModel {
     /**
@@ -39,7 +42,22 @@ public interface IModel {
      *      @throws CostManagerException
      */
 
+    public List<Expense> getExpenseWeek (Date day) throws  CostManagerException;
+    /**
+     * get list of expenses on specific week
+     * * @param day
+     *    
+     *      @return
+     *      @throws CostManagerException
+     */
+
     public List<Expense> getExpenseDay (Date day) throws  CostManagerException;
+    /**
+     * get hashMap of Categories
+     * @return
+     * @throws CostManagerException
+     */
+    public HashMap<String,Double>getCategoryMap() throws  CostManagerException;
 
     /**
      * add new user 
@@ -53,11 +71,7 @@ public interface IModel {
      * @throws CostManagerException
      */
     public void login(User user)throws CostManagerException;
-    /**
-     * get hashMap of Categories
-     * @return
-     * @throws CostManagerException
-     */
-    public HashMap<String,Double>getCategoryMap() throws  CostManagerException;
+    public void logout ()throws CostManagerException;
+
 
 }

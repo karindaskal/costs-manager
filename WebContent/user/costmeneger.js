@@ -11,12 +11,13 @@ window.cost= {};
  */
 window.cost.url="http://10.0.2.2:8080/cost/router";
 /**
- * add cost item sent a request with cost objcext
+ * add cost item sent a request with cost objcet
  * @param ob
  * @param fun1
  * @param fun2
  */
 window.cost.addCostItem= function (ob,fun1,fun2){
+try{
     //get string of the object to set the request
 
  var stringcost =ob.toString();
@@ -52,7 +53,9 @@ window.cost.addCostItem= function (ob,fun1,fun2){
         }
     };
     //send ajax
-    xhr.send(); 
+    xhr.send(); }
+    catch(exception)
+            {  fun2.call(this, "fail login" );}
 
 
 }
@@ -94,6 +97,40 @@ var userString=user.toString()
             xhr.send(); }
             catch(exception)
             {  fun2.call(this, "fail login" );}
+           
+
+
+}
+window.cost.logout=  function (fun1,fun2){
+
+try{       	  
+        	   if (navigator.appName == "Microsoft Internet Explorer")
+        	   {
+        	       var xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        	   }
+        	   else
+        	   {
+        	       var xhr = new XMLHttpRequest();
+        	   }
+            xhr.abort();
+            xhr.open(
+                "POST",
+            window.cost.url+"/user/logout",
+                true);
+            xhr.onreadystatechange = function()
+            {
+                if (xhr.readyState == 4 && xhr.status == 200)
+                {             
+                                   fun1.call(this);                                                  
+
+                }
+                else{
+                fun2.call(this, "fail logout" );
+                }
+            };
+            xhr.send(); }
+            catch(exception)
+            {  fun2.call(this, "fail logout" );}
            
 
 
@@ -141,7 +178,7 @@ var userString=user.toString()
             };
             xhr.send(); }
             catch(exception)
-            {}
+            {fun2.call(this,"somthing want worng" );}
            
 
 
@@ -154,7 +191,7 @@ var userString=user.toString()
  */
 window.cost.getList=  function (fun1,fun2){
 
-            	
+            	try{
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET", window.cost.url+"/user/getlist",true);
                 xhr.onreadystatechange = function()
@@ -172,7 +209,9 @@ window.cost.getList=  function (fun1,fun2){
                    fun2.call(this,"fail load data");
                  }
                 }
-                xhr.send();
+                xhr.send();}
+                catch(exception){
+                fun2.call(this,xhr.responseText );}
 
 
 }
@@ -184,11 +223,12 @@ window.cost.getList=  function (fun1,fun2){
  */
 window.cost.getListPerMonth=function (ob,fun1,fun2){
 fun2.call(this,"laoding...")
+try{
     
          var monthString=ob.toString();       
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET",
-                 window.cost.url+"/user/showListPerMonth?"+monthString
+                 window.cost.url+"/user/getListPerMonth?"+monthString
                 ,true);
                 xhr.onreadystatechange = function()
                 {
@@ -205,7 +245,8 @@ fun2.call(this,"laoding...")
                    fun2.call(this,"fail load data");
                  }
                 }
-                xhr.send();
+                xhr.send();}
+                 catch(exception){ fun2.call(this,"fail load data");}
 
 }
 /**
@@ -216,7 +257,7 @@ fun2.call(this,"laoding...")
  */
 window.cost.getListPerDay=function (day,fun1,fun2){
 fun2.call(this,"laoding...")
-    
+    try{
              
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET",
@@ -237,7 +278,38 @@ fun2.call(this,"laoding...")
                    fun2.call(this,"fail load data");
                  }
                 }
-                xhr.send();
+                xhr.send();}
+                  catch(exception){ fun2.call(this,"fail load data");}
+                
+
+}
+
+
+window.cost.getListPerWeek=function (day,fun1,fun2){
+fun2.call(this,"laoding...")
+    
+             try{
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET",
+                 window.cost.url+"/user/getlistperweek?day="+day
+                ,true);
+                xhr.onreadystatechange = function()
+                {
+                    if (xhr.readyState == 4 && xhr.status == 200){  
+                      data=xhr.responseText        
+                          var vec = JSON.parse(data);
+                        fun1.call(this,vec);
+                        fun2.call(this,"");
+                       // return  vec;
+                    
+                   }
+                   else
+                   {
+                   fun2.call(this,"fail load data");
+                 }
+                }
+                xhr.send();}
+                  catch(exception){ fun2.call(this,"fail load data");}
 
 }
 /**
@@ -246,9 +318,9 @@ fun2.call(this,"laoding...")
  */
 window.cost.getpiechart=  function (fun1){
 
-            	
+            	try{
                 var xhr = new XMLHttpRequest();
-                xhr.open("GET", window.cost.url+"/user/gethashmap",true);
+                xhr.open("GET", window.cost.url+"/user/getdatapiechart",true);
                 xhr.onreadystatechange = function()
                 {
                     if (xhr.readyState == 4 && xhr.status == 200){  
@@ -265,7 +337,8 @@ window.cost.getpiechart=  function (fun1){
                    
                 
                 }
-                xhr.send();
+                xhr.send();}
+                  catch(exception){ fun2.call(this,"fail load data");}
 
 
 }

@@ -1,16 +1,19 @@
 package il.ac.hit.costmanager.model;
-/**
- * Karin Daskal 208511659
- * lilach louz 315903179
- */
-/**
- * class expense contain  the sum,the category,the date ,a small text describing that cost and user id.
- */
+
+
 
 
 import java.util.Date;
 
 import javax.persistence.JoinColumn;
+/**
+ * Karin Daskal 208511659
+ * lilach louz 315903179
+ */
+
+/**
+ * class expense contain  the sum,the category,the date ,a small text describing that cost and user id.
+ */
 
 public class Expense {
 	   private  Category category;

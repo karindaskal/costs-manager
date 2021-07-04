@@ -3,6 +3,7 @@ package il.ac.hit.costmanager.model;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 
 
 public class SqlModel implements  IModel  {
-	private SessionFactory factory;
+	private SessionFactory factory =new AnnotationConfiguration().configure().buildSessionFactory();
 	private User user;
 	
 	
@@ -58,7 +59,7 @@ public class SqlModel implements  IModel  {
 		try {
 			//get current user
 		expense.setUserId(user.getId());
-		factory = new AnnotationConfiguration().configure().buildSessionFactory();
+		
 		 session = factory.openSession();
 		session.beginTransaction();	
 		//add expense to the table
@@ -69,13 +70,17 @@ public class SqlModel implements  IModel  {
 				  throw new  CostManagerException(hibernateEx.getMessage(),hibernateEx); }
 		finally {
 			  if(session!=null) { 
-				  session.close();
+				  try {
+						//close session
+					  session.close();}
+					  catch(HibernateException hibernateEx) {}
+				  }
 			  }
 		}
 		
 
-		
-	}
+
+	
 
 
 
@@ -91,8 +96,7 @@ public class SqlModel implements  IModel  {
 		Session session= null;
       
 		try {
-			//get factory object from configure
-		 SessionFactory factory = new AnnotationConfiguration().configure().buildSessionFactory();
+		
 		 //get  session object
 		  session = factory.openSession();
 			//start a transaction 
@@ -110,14 +114,17 @@ public class SqlModel implements  IModel  {
 		  throw new  CostManagerException(hibernateEx.getMessage(),hibernateEx); }
 finally {
 	  if(session!=null) { 
-		  //close session
-		  session.close();
+		  try {
+				//close session
+			  session.close();}
+			  catch(HibernateException hibernateEx) {}
+		  }
 	  }
 }	
 			
 
 	
-	}
+	
 
 
 	@Override
@@ -129,8 +136,6 @@ finally {
 	public void registration(User user) throws CostManagerException {
 		Session session= null;
 		try {
-			//get factory object from configure
-			 SessionFactory factory = new AnnotationConfiguration().configure().buildSessionFactory();
 			 //get  session object
 			  session = factory.openSession();
 			//start a transaction 
@@ -143,13 +148,17 @@ finally {
 		}
 		finally {
 			if(session!=null) {
-				session.close();
+				  try {
+						//close session
+					  session.close();}
+					  catch(HibernateException hibernateEx) {}
+				  }
 
 			}
 		}
 		
 		
-	}
+	
 
 	@Override
 	   /**
@@ -160,8 +169,7 @@ finally {
 	public void login(User user) throws CostManagerException {
 		 Session session= null;
 		try { 
-			//get factory object from configure
-			 SessionFactory factory = new AnnotationConfiguration().configure().buildSessionFactory();
+			
 			 //get  session object
 			  session = factory.openSession();
 			//start a transaction 
@@ -182,10 +190,14 @@ finally {
 					  throw new  CostManagerException(hibernateEx.getMessage(),hibernateEx); }
 		finally {
 				  if(session!=null) { 
-					  session.close();
+					  try {
+							//close session
+						  session.close();}
+						  catch(HibernateException hibernateEx) {}
+					  }
 				  }
 		}
-	}
+	
 
 	@Override
 	  /**
@@ -197,8 +209,7 @@ finally {
 		Session session= null;
         //List<Expense> list = new ArrayList<>();
 		try {
-			// Get the SessionFactory object from configuration.
-		 SessionFactory factory = new AnnotationConfiguration().configure().buildSessionFactory();
+			
         //get session object
 		  session = factory.openSession();
 		//start a transaction 
@@ -216,11 +227,15 @@ finally {
 		  throw new  CostManagerException(hibernateEx.getMessage(),hibernateEx); }
 finally {
 	  if(session!=null) { 
-		  session.close();
+		  try {
+				//close session
+			  session.close();}
+			  catch(HibernateException hibernateEx) {}
+		  }
 	  }
 }
 	
-	}
+	
 
 	@Override
 	 /**
@@ -230,12 +245,55 @@ finally {
      *      @return
      *      @throws CostManagerException
      */
+	public List<Expense> getExpenseWeek(Date day) throws CostManagerException {
+		Session session= null;
+	      
+		try {
+			
+		 //get  session object
+		  session = factory.openSession();
+	
+			//start a transaction 
+		  session.beginTransaction();	
+		  Date weekDay = new Date(day.getTime() - 604800000L); // 7 * 24 * 60 * 60 * 1000
+				  @SuppressWarnings("unchecked")
+				  String pattern = "yyy-MM-dd HH:mm:ss";
+
+				// Create an instance of SimpleDateFormat used for formatting 
+				// the string representation of date according to the chosen pattern
+				DateFormat df = new SimpleDateFormat(pattern);
+
+				// Get the today date using Calendar object.
+		
+				// representation of a date with the defined format.
+				String todayAsString = df.format(day);
+				String weekAsString = df.format(weekDay);
+			
+			
+				  //get list of an expense in  specific day
+				  List<Expense> list =( List<Expense>)session.createQuery(" FROM Expense WHERE DATE <='"+todayAsString+"'and DATE >='"+weekAsString+"'and USERID=:userid")
+						  .setParameter("userid", user.getId()).
+						  list();
+				  return list;
+				
+				
+		}
+	   catch(HibernateException hibernateEx) {
+		  throw new  CostManagerException(hibernateEx.getMessage(),hibernateEx); }
+finally {
+	  if(session!=null) { 
+		  
+		  try {
+			//close session
+		  session.close();}
+		  catch(HibernateException hibernateEx) {}
+	  }
+	}
+}
 	public List<Expense> getExpenseDay(Date day) throws CostManagerException {
 		Session session= null;
 	      
 		try {
-			//get factory object from configure
-		 SessionFactory factory = new AnnotationConfiguration().configure().buildSessionFactory();
 		 //get  session object
 		  session = factory.openSession();
 	
@@ -253,9 +311,9 @@ finally {
 		
 				// representation of a date with the defined format.
 				String todayAsString = df.format(day);
-				
-				  
-				  //get list of an expense in  specific month
+			
+			
+				  //get list of an expense in  specific day
 				  List<Expense> list =( List<Expense>)session.createQuery(" FROM Expense WHERE DATE ='"+todayAsString+"'and USERID=:userid")
 						  .setParameter("userid", user.getId()).
 						  list();
@@ -267,11 +325,14 @@ finally {
 		  throw new  CostManagerException(hibernateEx.getMessage(),hibernateEx); }
 finally {
 	  if(session!=null) { 
-		  //close session
-		  session.close();
+		  try {
+			  //close session
+			  session.close();}
+			  catch(HibernateException hibernateEx) {}
+		  }
 	  }
 	}
-}
+
 	 /**
      * get hashMap of Categories
      * @return
@@ -284,8 +345,6 @@ finally {
 		  HashMap<String, Double> categories = new HashMap<>();
         //List<Expense> list = new ArrayList<>();
 		try {
-			// Get the SessionFactory object from configuration.
-		 SessionFactory factory = new AnnotationConfiguration().configure().buildSessionFactory();
         //get session object
 		  session = factory.openSession();
 		//start a transaction 
@@ -306,10 +365,24 @@ finally {
 		  throw new  CostManagerException(hibernateEx.getMessage(),hibernateEx); }
 finally {
 	  if(session!=null) { 
-		  session.close();
+		  try {
+				//close session
+			  session.close();}
+			  catch(HibernateException hibernateEx) {}
+		  }
 	  }
 }
 	
+	
+	/**
+	 * logout function
+	 */
+
+	@Override
+	public void logout() throws CostManagerException {
+		
+		user = null;
+		
 	}
 }  
 				  
